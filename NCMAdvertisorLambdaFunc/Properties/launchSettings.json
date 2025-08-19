@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "NCMAdvertisorLambdaFuncAPI": {
+      "commandName": "Executable",
+      "commandLineArgs": "--port 5050",
+      "workingDirectory": ".\\bin\\$(Configuration)\\net8.0",
+      "executablePath": "%USERPROFILE%\\.dotnet\\tools\\dotnet-lambda-test-tool-8.0.exe",
+      "environmentVariables": {
+        "API_KEY": "6a5781b4-5058-43d5-b65a-be5ce353e69d",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
