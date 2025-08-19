@@ -64,6 +64,7 @@ namespace NCMAdvertisorLambdaFunc.Function
                 KafkaMessage kafkaMessage;
                 try
                 {
+
                     kafkaMessage = JsonConvert.DeserializeObject<KafkaMessage>(kafkaMessageValue);
                 }
                 catch (Exception jsonEx)
