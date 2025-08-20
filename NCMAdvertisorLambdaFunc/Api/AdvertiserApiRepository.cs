@@ -30,8 +30,8 @@ namespace NCMAdvertisorLambdaFunc.Api
             var url = $"{baseUrl}/{apiKey}/advertisers/{id}";
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            request.Headers.Add("User-Agent", Constant.UserAgent);
+            request.Headers.Authorization = new AuthenticationHeaderValue(Constant.Bearer, token);
+            request.Headers.Add(Constant.UserAgentKey, Constant.UserAgentValue);
 
             try
             {

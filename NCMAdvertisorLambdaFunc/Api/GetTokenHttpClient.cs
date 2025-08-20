@@ -31,7 +31,7 @@ namespace NCMAdvertisorLambdaFunc.Api
             var requestBody = new
             {
                 apiKey = _configuration[Constant.ApiKey],
-                expiration = int.Parse(_configuration[Constant.Expiration] ?? "100"),
+                expiration = int.Parse(_configuration[Constant.Expiration] ?? Constant.DefaultExpiration),
                 password = _configuration[Constant.Password],
                 userId = _configuration[Constant.UserId]
             };
@@ -39,10 +39,10 @@ namespace NCMAdvertisorLambdaFunc.Api
             var json = JsonSerializer.Serialize(requestBody);
             var httpRequest = new HttpRequestMessage(HttpMethod.Post, url)
             {
-                Content = new StringContent(json, Encoding.UTF8, "application/json")
+                Content = new StringContent(json, Encoding.UTF8, Constant.ContentType)
             };
 
-            httpRequest.Headers.Add("User-Agent", Constant.UserAgent);
+            httpRequest.Headers.Add(Constant.UserAgentKey, Constant.UserAgentValue);
 
             try
             {
