@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using NCMAdvertisorLambdaFunc.Model.Entities;
-using NCMAdvertisorLambdaFunc.Model.Request;
+using NCMAdvertisorLambdaFunc.Dto;
+using NCMAdvertisorLambdaFunc.Models;
 
-namespace NCMAdvertisorLambdaFunc.Mapper
+namespace NCMAdvertisorLambdaFunc.Mappers
 {
     public class AutoMapperProfile : Profile
     {

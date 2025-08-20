@@ -1,29 +1,37 @@
-﻿using Microsoft.Extensions.Logging;
-using NCMAdvertisorLambdaFunc.Model.Response;
-using NCMAdvertisorLambdaFunc.Repositories.Contract;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using NCMAdvertisorLambdaFunc.Api.Interface;
+using NCMAdvertisorLambdaFunc.Constants;
+using NCMAdvertisorLambdaFunc.Dto;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
-namespace NCMAdvertisorLambdaFunc.Repositories.Implementation
+namespace NCMAdvertisorLambdaFunc.Api
 {
     public class AdvertiserApiRepository : IAdvertiserApiRepository
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<AdvertiserApiRepository> _logger;
+        private readonly IConfiguration _configuration;
 
-        public AdvertiserApiRepository(HttpClient httpClient, ILogger<AdvertiserApiRepository> logger)
+        public AdvertiserApiRepository(HttpClient httpClient, ILogger<AdvertiserApiRepository> logger, IConfiguration configuration)
         {
             _httpClient = httpClient;
             _logger = logger;
+            _configuration = Program.Services.GetRequiredService<IConfiguration>();
         }
 
         public async Task<AdvertiserResponse> GetAdvertiserByIdAsync(string token, string id)
         {
-            var apiKey = Environment.GetEnvironmentVariable("API_KEY");
-            var url = $"https://staging-api.aos.operative.com/mdm_2/v1/{apiKey}/advertisers/{id}";
+            var baseUrl = _configuration[Constant.AdvertisorApiBaseUrl];
+            var apiKey = _configuration[Constant.ApiKey];
+            var url = $"{baseUrl}/{apiKey}/advertisers/{id}";
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            request.Headers.Add("User-Agent", Constant.UserAgent);
 
             try
             {

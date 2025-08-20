@@ -1,31 +1,39 @@
-﻿using Microsoft.Extensions.Logging;
-using NCMAdvertisorLambdaFunc.Repositories.Contract;
-using NCMAdvertisorLambdaFunc.Model.Response;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using NCMAdvertisorLambdaFunc.Api.Interface;
+using NCMAdvertisorLambdaFunc.Constants;
+using NCMAdvertisorLambdaFunc.Dto;
 using System.Text;
 using System.Text.Json;
 
-namespace NCMAdvertisorLambdaFunc.Repositories.Implementation
+namespace NCMAdvertisorLambdaFunc.Api
 {
-    public class GetTokenHttpClient: IGetTokenHttpClient
+    public class GetTokenHttpClient : IGetTokenHttpClient
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<GetTokenHttpClient> _logger;
+        private readonly IConfiguration _configuration;
 
-        public GetTokenHttpClient(HttpClient httpClient, ILogger<GetTokenHttpClient> logger)
+        public GetTokenHttpClient(HttpClient httpClient, ILogger<GetTokenHttpClient> logger, IConfiguration configuration)
         {
             _httpClient = httpClient;
             _logger = logger;
+            _configuration = Program.Services.GetRequiredService<IConfiguration>();
         }
 
         public async Task<string> CallExternalApiAsync()
         {
-            var url = "https://staging-api.aos.operative.com/mayiservice/tenant/ncmsandbox";
+            var baseUrl = _configuration[Constant.TokenApi];
+            var tenentId = _configuration[Constant.TenentId];
+            var url = $"{baseUrl}/{tenentId}";
+
             var requestBody = new
             {
-                apiKey = "6a5781b4-5058-43d5-b65a-be5ce353e69d",
-                expiration = 100,
-                password = "NCMstgD3LL0ite",
-                userId = "deloitte@ncmsandbox.com"
+                apiKey = _configuration[Constant.ApiKey],
+                expiration = int.Parse(_configuration[Constant.Expiration] ?? "100"),
+                password = _configuration[Constant.Password],
+                userId = _configuration[Constant.UserId]
             };
 
             var json = JsonSerializer.Serialize(requestBody);
@@ -33,6 +41,8 @@ namespace NCMAdvertisorLambdaFunc.Repositories.Implementation
             {
                 Content = new StringContent(json, Encoding.UTF8, "application/json")
             };
+
+            httpRequest.Headers.Add("User-Agent", Constant.UserAgent);
 
             try
             {

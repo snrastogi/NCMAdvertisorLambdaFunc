@@ -1,4 +1,4 @@
-﻿namespace NCMAdvertisorLambdaFunc.Repositories.Contract
+﻿namespace NCMAdvertisorLambdaFunc.Api.Interface
 {
     public interface IGetTokenHttpClient
     {

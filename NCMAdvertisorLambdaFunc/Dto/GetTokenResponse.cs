@@ -1,4 +1,4 @@
-﻿namespace NCMAdvertisorLambdaFunc.Model.Response
+﻿namespace NCMAdvertisorLambdaFunc.Dto
 {
     public class GetTokenResponse
     {

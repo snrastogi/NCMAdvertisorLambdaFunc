@@ -2,16 +2,16 @@ using Amazon.Lambda.Annotations;
 using Amazon.Lambda.Core;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
-using NCMAdvertisorLambdaFunc.Model.Entities;
-using NCMAdvertisorLambdaFunc.Model.Request;
-using NCMAdvertisorLambdaFunc.Services.Contracts;
+using NCMAdvertisorLambdaFunc.Dto;
+using NCMAdvertisorLambdaFunc.Models;
+using NCMAdvertisorLambdaFunc.Services.Interface;
 using Newtonsoft.Json;
 
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
-namespace NCMAdvertisorLambdaFunc.Function
+namespace NCMAdvertisorLambdaFunc.Functions
 {
     public class GetAdvertisorDetails
     {

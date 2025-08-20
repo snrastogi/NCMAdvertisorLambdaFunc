@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NCMAdvertisorLambdaFunc.Mapper;
-using NCMAdvertisorLambdaFunc.Repositories.Contract;
-using NCMAdvertisorLambdaFunc.Repositories.Implementation;
-using NCMAdvertisorLambdaFunc.Services.Contracts;
-using NCMAdvertisorLambdaFunc.Services.Implementation;
+using NCMAdvertisorLambdaFunc.Api;
+using NCMAdvertisorLambdaFunc.Api.Interface;
+using NCMAdvertisorLambdaFunc.Mappers;
+using NCMAdvertisorLambdaFunc.Services;
+using NCMAdvertisorLambdaFunc.Services.Interface;
 
 public class Program
 {
@@ -14,6 +15,11 @@ public class Program
     static Program()
     {
         _host = Host.CreateDefaultBuilder()
+             .ConfigureAppConfiguration((context, builder) =>
+             {
+                 builder.AddJsonFile("appsettings.Development.json", optional: true)
+                        .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: true);
+             })
             .ConfigureServices((context, services) =>
             {
                 services.AddHttpClient();

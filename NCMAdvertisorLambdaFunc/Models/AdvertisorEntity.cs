@@ -1,6 +1,6 @@
-﻿namespace NCMAdvertisorLambdaFunc.Model.Request
+﻿namespace NCMAdvertisorLambdaFunc.Models
 {
-    public class KafkaMessage
+    public class AdvertisorEntity
     {
         public string Id { get; set; } = string.Empty;
         // Add other properties as needed

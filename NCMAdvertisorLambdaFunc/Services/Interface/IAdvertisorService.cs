@@ -1,6 +1,6 @@
-﻿using NCMAdvertisorLambdaFunc.Model.Entities;
+﻿using NCMAdvertisorLambdaFunc.Models;
 
-namespace NCMAdvertisorLambdaFunc.Services.Contracts
+namespace NCMAdvertisorLambdaFunc.Services.Interface
 {
     public interface IAdvertisorService
     {

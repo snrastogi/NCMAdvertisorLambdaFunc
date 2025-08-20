@@ -1,6 +1,6 @@
-﻿using NCMAdvertisorLambdaFunc.Model.Response;
+﻿using NCMAdvertisorLambdaFunc.Dto;
 
-namespace NCMAdvertisorLambdaFunc.Repositories.Contract
+namespace NCMAdvertisorLambdaFunc.Api.Interface
 {
     public interface IAdvertiserApiRepository
     {
