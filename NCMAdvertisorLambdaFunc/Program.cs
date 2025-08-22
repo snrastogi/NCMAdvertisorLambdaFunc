@@ -17,8 +17,7 @@ public class Program
         _host = Host.CreateDefaultBuilder()
              .ConfigureAppConfiguration((context, builder) =>
              {
-                 builder.AddJsonFile("appsettings.Development.json", optional: true)
-                        .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: true);
+                 builder.AddJsonFile("appsettings.json", optional: true);
              })
             .ConfigureServices((context, services) =>
             {
