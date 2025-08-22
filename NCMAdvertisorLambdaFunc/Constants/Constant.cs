@@ -20,5 +20,6 @@ namespace NCMAdvertisorLambdaFunc.Constants
         public const string UserAgentKey = "User-Agent";
         public const string DefaultExpiration = "100";
         public const string ContentType = "application/json";
+        public const string Advertisers = "advertisers";
     }
 }

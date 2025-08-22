@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NCMAdvertisorLambdaFunc.Api.Interface;
 using NCMAdvertisorLambdaFunc.Constants;
 using NCMAdvertisorLambdaFunc.Dto;
+using NCMAdvertisorLambdaFunc.Messaging.Interface;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
-namespace NCMAdvertisorLambdaFunc.Api
+namespace NCMAdvertisorLambdaFunc.Messaging
 {
     public class AdvertiserApiRepository : IAdvertiserApiRepository
     {
@@ -20,14 +19,15 @@ namespace NCMAdvertisorLambdaFunc.Api
         {
             _httpClient = httpClient;
             _logger = logger;
-            _configuration = Program.Services.GetRequiredService<IConfiguration>();
+            _configuration = configuration;
         }
 
         public async Task<AdvertiserResponse> GetAdvertiserByIdAsync(string token, string id)
         {
             var baseUrl = _configuration[Constant.AdvertisorApiBaseUrl];
             var apiKey = _configuration[Constant.ApiKey];
-            var url = $"{baseUrl}/{apiKey}/advertisers/{id}";
+            var advertisers = _configuration[Constant.Advertisers];
+            var url = $"{baseUrl}/{apiKey}/{advertisers}/{id}";
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Authorization = new AuthenticationHeaderValue(Constant.Bearer, token);

@@ -16,13 +16,13 @@ namespace NCMAdvertisorLambdaFunc.Functions
     public class GetAdvertisorDetails
     {
         private readonly IMapper _mapper;
-        private readonly IAdvertisorService _service;
+        private readonly IAdvertiserService _service;
 
         public GetAdvertisorDetails()
         {
             // Resolve dependencies from the static DI container
             _mapper = Program.Services.GetRequiredService<IMapper>();
-            _service = Program.Services.GetRequiredService<IAdvertisorService>();
+            _service = Program.Services.GetRequiredService<IAdvertiserService>();
         }
 
         [LambdaFunction]

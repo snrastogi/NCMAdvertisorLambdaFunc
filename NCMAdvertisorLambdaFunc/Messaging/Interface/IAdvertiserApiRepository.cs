@@ -1,6 +1,6 @@
 ﻿using NCMAdvertisorLambdaFunc.Dto;
 
-namespace NCMAdvertisorLambdaFunc.Api.Interface
+namespace NCMAdvertisorLambdaFunc.Messaging.Interface
 {
     public interface IAdvertiserApiRepository
     {

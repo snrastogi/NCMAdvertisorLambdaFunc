@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NCMAdvertisorLambdaFunc.Api.Interface;
 using NCMAdvertisorLambdaFunc.Constants;
 using NCMAdvertisorLambdaFunc.Dto;
+using NCMAdvertisorLambdaFunc.Messaging.Interface;
 using System.Text;
 using System.Text.Json;
 
-namespace NCMAdvertisorLambdaFunc.Api
+namespace NCMAdvertisorLambdaFunc.Messaging
 {
     public class GetTokenHttpClient : IGetTokenHttpClient
     {
@@ -19,7 +19,7 @@ namespace NCMAdvertisorLambdaFunc.Api
         {
             _httpClient = httpClient;
             _logger = logger;
-            _configuration = Program.Services.GetRequiredService<IConfiguration>();
+            _configuration =configuration;
         }
 
         public async Task<string> CallExternalApiAsync()

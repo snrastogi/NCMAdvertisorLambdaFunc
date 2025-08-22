@@ -1,20 +1,20 @@
 ﻿using Microsoft.Extensions.Logging;
-using NCMAdvertisorLambdaFunc.Api.Interface;
+using NCMAdvertisorLambdaFunc.Messaging.Interface;
 using NCMAdvertisorLambdaFunc.Models;
 using NCMAdvertisorLambdaFunc.Services.Interface;
 
 namespace NCMAdvertisorLambdaFunc.Services
 {
-    public class AdvertisorService : IAdvertisorService
+    public class AdvertiserService : IAdvertiserService
     {
         private readonly IGetTokenHttpClient _getToken;
         private readonly IAdvertiserApiRepository _advertiserApiRepository;
-        private readonly ILogger<AdvertisorService> _logger;
+        private readonly ILogger<AdvertiserService> _logger;
 
-        public AdvertisorService(
+        public AdvertiserService(
             IGetTokenHttpClient getToken,
             IAdvertiserApiRepository advertiserApiRepository,
-            ILogger<AdvertisorService> logger)
+            ILogger<AdvertiserService> logger)
         {
             _getToken = getToken;
             _advertiserApiRepository = advertiserApiRepository;

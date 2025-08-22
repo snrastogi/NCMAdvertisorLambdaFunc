@@ -2,7 +2,7 @@
 
 namespace NCMAdvertisorLambdaFunc.Services.Interface
 {
-    public interface IAdvertisorService
+    public interface IAdvertiserService
     {
         void ProcessAdvertisor(AdvertisorEntity entity);
     }

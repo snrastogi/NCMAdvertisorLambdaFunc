@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NCMAdvertisorLambdaFunc.Api;
-using NCMAdvertisorLambdaFunc.Api.Interface;
 using NCMAdvertisorLambdaFunc.Mappers;
+using NCMAdvertisorLambdaFunc.Messaging;
+using NCMAdvertisorLambdaFunc.Messaging.Interface;
 using NCMAdvertisorLambdaFunc.Services;
 using NCMAdvertisorLambdaFunc.Services.Interface;
 
@@ -24,7 +24,7 @@ public class Program
             {
                 services.AddHttpClient();
                 services.AddScoped<IGetTokenHttpClient, GetTokenHttpClient>();
-                services.AddScoped<IAdvertisorService, AdvertisorService>();
+                services.AddScoped<IAdvertiserService, AdvertiserService>();
                 services.AddScoped<IAdvertiserApiRepository, AdvertiserApiRepository>();
                 services.AddAutoMapper(typeof(AutoMapperProfile));
                 services.AddLogging();
