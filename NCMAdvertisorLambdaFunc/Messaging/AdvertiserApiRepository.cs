@@ -26,7 +26,7 @@ namespace NCMAdvertisorLambdaFunc.Messaging
         {
             var baseUrl = _configuration[Constant.AdvertisorApiBaseUrl];
             var apiKey = _configuration[Constant.ApiKey];
-            var advertisers = _configuration[Constant.Advertisers];
+            var advertisers = Constant.Advertisers;
             var url = $"{baseUrl}/{apiKey}/{advertisers}/{id}";
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);

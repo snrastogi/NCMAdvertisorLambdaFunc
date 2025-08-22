@@ -26,7 +26,7 @@ namespace NCMAdvertisorLambdaFunc.Functions
         }
 
         [LambdaFunction]
-        public string FunctionHandler(string req, ILambdaContext context)
+        public string FunctionHandler(ILambdaContext context)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace NCMAdvertisorLambdaFunc.Functions
                 //    context?.Logger.LogLine("No message received from Kafka.");
                 //    return "No message received from Kafka.";
                 //
-                var kafkaMessageValue = req; // For testing purposes, use the input directly
+                var kafkaMessageValue = "{\"Id\":\"688a50490dc5347fafef9a3c\"}"; // For testing purposes, use the input directly
                 
                 KafkaMessage kafkaMessage;
                 try
