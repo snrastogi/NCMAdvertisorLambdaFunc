@@ -1,6 +1,7 @@
 using Amazon.Lambda.Annotations;
 using Amazon.Lambda.Core;
 using AutoMapper;
+using Confluent.Kafka;
 using Microsoft.Extensions.DependencyInjection;
 using NCMAdvertisorLambdaFunc.Dto;
 using NCMAdvertisorLambdaFunc.Models;
@@ -30,72 +31,73 @@ namespace NCMAdvertisorLambdaFunc.Functions
         {
             try
             {
-                //var consumerConfig = new ConsumerConfig
-                //{
-                //    BootstrapServers = "localhost:9092",
-                //    GroupId = "lambda-consumer-group",
-                //    AutoOffsetReset = AutoOffsetReset.Earliest
-                //};
-
-                //string kafkaMessageValue = null;
-
-                //try
-                //{
-                //    using (var consumer = new ConsumerBuilder<Ignore, string>(consumerConfig).Build())
-                //    {
-                //        consumer.Subscribe("advertisor-topic");
-                //        var consumeResult = consumer.Consume(TimeSpan.FromSeconds(5));
-                //        kafkaMessageValue = consumeResult?.Message?.Value;
-                //    }
-                //}
-                //catch (Exception kafkaEx)
-                //{
-                //    context?.Logger.LogLine($"Kafka error: {kafkaEx}");
-                //    return $"Error: Kafka consumption failed. {kafkaEx.Message}";
-                //}
-
-                //if (string.IsNullOrEmpty(kafkaMessageValue))
-                //{
-                //    context?.Logger.LogLine("No message received from Kafka.");
-                //    return "No message received from Kafka.";
-                //
-                var kafkaMessageValue = "{\"Id\":\"688a50490dc5347fafef9a3c\"}"; // For testing purposes, use the input directly
-                
-                KafkaMessage kafkaMessage;
-                try
+                var consumerConfig = new ConsumerConfig
                 {
+                    BootstrapServers = "localhost:9092",
+                    GroupId = "lambda-consumer-group",
+                    AutoOffsetReset = AutoOffsetReset.Earliest
+                };
 
-                    kafkaMessage = JsonConvert.DeserializeObject<KafkaMessage>(kafkaMessageValue);
-                }
-                catch (Exception jsonEx)
-                {
-                    context?.Logger.LogLine($"Deserialization error: {jsonEx}");
-                    return $"Error: Failed to deserialize Kafka message. {jsonEx.Message}";
-                }
-
-                AdvertisorEntity entity;
-                try
-                {
-                    entity = _mapper.Map<AdvertisorEntity>(kafkaMessage);
-                }
-                catch (Exception mapEx)
-                {
-                    context?.Logger.LogLine($"Mapping error: {mapEx}");
-                    return $"Error: Failed to map Kafka message to entity. {mapEx.Message}";
-                }
+                string kafkaMessageValue = null;
 
                 try
                 {
-                    _service.ProcessAdvertisor(entity);
+                    using (var consumer = new ConsumerBuilder<Ignore, string>(consumerConfig).Build())
+                    {
+                        consumer.Subscribe("advertisor-topic");
+                        var consumeResult = consumer.Consume(TimeSpan.FromSeconds(5));
+                        kafkaMessageValue = consumeResult?.Message?.Value;
+                    }
                 }
-                catch (Exception serviceEx)
+                catch (Exception kafkaEx)
                 {
-                    context?.Logger.LogLine($"Service error: {serviceEx}");
-                    return $"Error: Service processing failed. {serviceEx.Message}";
+                    context?.Logger.LogLine($"Kafka error: {kafkaEx}");
+                    return $"Error: Kafka consumption failed. {kafkaEx.Message}";
                 }
 
-                context?.Logger.LogLine($"Successfully processed Advertisor Id: {entity.Id}");
-                return $"Processed Advertisor Id: {entity.Id}";
+                if (string.IsNullOrEmpty(kafkaMessageValue))
+                {
+                    context?.Logger.LogLine("No message received from Kafka.");
+                    return "No message received from Kafka.";
+                }
+
+                    // var kafkaMessageValue = "{\"Id\":\"688a50490dc5347fafef9a3c\"}"; // For testing purposes, use the input directly
+
+                    KafkaMessage kafkaMessage;
+                    try
+                    {
+
+                        kafkaMessage = JsonConvert.DeserializeObject<KafkaMessage>(kafkaMessageValue);
+                    }
+                    catch (Exception jsonEx)
+                    {
+                        context?.Logger.LogLine($"Deserialization error: {jsonEx}");
+                        return $"Error: Failed to deserialize Kafka message. {jsonEx.Message}";
+                    }
+
+                    AdvertisorEntity entity;
+                    try
+                    {
+                        entity = _mapper.Map<AdvertisorEntity>(kafkaMessage);
+                    }
+                    catch (Exception mapEx)
+                    {
+                        context?.Logger.LogLine($"Mapping error: {mapEx}");
+                        return $"Error: Failed to map Kafka message to entity. {mapEx.Message}";
+                    }
+
+                    try
+                    {
+                        _service.ProcessAdvertisor(entity);
+                    }
+                    catch (Exception serviceEx)
+                    {
+                        context?.Logger.LogLine($"Service error: {serviceEx}");
+                        return $"Error: Service processing failed. {serviceEx.Message}";
+                    }
+
+                    context?.Logger.LogLine($"Successfully processed Advertisor Id: {entity.Id}");
+                    return $"Processed Advertisor Id: {entity.Id}";
             }
             catch (Exception ex)
             {
